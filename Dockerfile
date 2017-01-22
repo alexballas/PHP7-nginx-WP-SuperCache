@@ -9,6 +9,7 @@ ADD nginx-config/wp-supercache.conf /etc/nginx/snippets/wp-supercache.conf
 ADD nginx-config/default /etc/nginx/sites-available/default
 ADD scripts/start.sh /start.sh
 
+RUN sed -i 's/.*server_tokens.*/server_tokens off;/' /etc/nginx/nginx.conf
 RUN chmod 755 /start.sh
 
 EXPOSE 80 443
