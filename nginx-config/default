@@ -1,0 +1,34 @@
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+
+  client_max_body_size 24m;
+  gzip on;
+  gzip_min_length  1100;
+  gzip_buffers  4 32k;
+  gzip_types    text/plain application/x-javascript text/xml text/css;
+  gzip_vary on;
+
+  root /var/www/html;
+  index index.php;
+
+  server_name _;
+
+  include snippets/wp-supercache.conf;
+
+  location ~ \.php$ {
+    try_files $uri $uri/ /index.php?$args;
+    include fastcgi.conf;
+    fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+  }
+
+  location ~* \.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc|woff|woff2)$ {
+    expires 2M;
+    add_header Cache-Control "public";
+  }
+
+  location ~* \.(?:css|js)$ {
+    expires 1d;
+    add_header Cache-Control "public";
+  }
+}
