@@ -39,7 +39,7 @@ add_header X-Content-Type-Options nosniff;
 ssl_dhparam /etc/ssl/certs/dhparam.pem;
 EOT
 
-sed -i '/server_name/c\  server_name $domainName www.$domainName;' /etc/nginx/sites-available/default
-sed -i '/server_name/a\  include snippets/ssl-$domainName.conf;\n  include snippets/ssl-params.conf;' /etc/nginx/sites-available/default
-sed -i '/listen \[/a\  listen 443 ssl http2 default_server;\n  listen [::]:443 ssl http2 default_server;' /etc/nginx/sites-available/default
+sed -i "/server_name/c\  server_name $domainName www.$domainName;" /etc/nginx/sites-available/default
+sed -i "/server_name/a\  include snippets/ssl-$domainName.conf;\n  include snippets/ssl-params.conf;" /etc/nginx/sites-available/default
+sed -i "/listen \[/a\  listen 443 ssl http2 default_server;\n  listen [::]:443 ssl http2 default_server;" /etc/nginx/sites-available/default
 nginx -s reload
