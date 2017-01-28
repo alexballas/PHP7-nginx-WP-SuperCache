@@ -1,3 +1,5 @@
+#! /bin/bash
+
 domainName=$1
 mailAddr=$2
 
