@@ -1,4 +1,4 @@
-# php-fpm-nginx-wp-super-cache-docker
+# PHP7-Nginx-WP-SuperCache
 A php7-fpm + nginx, WP super cache friendly, SSL ready, docker image.
 ## Usage
 ```
