@@ -1,9 +1,9 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
-MAINTAINER Alex Ballas <alex@ballas.org>
+LABEL maintainer="Alex Ballas <alex@ballas.org>"
 
-RUN apt-get update; \
-    apt-get -y install php-fpm php7.0-mysql php7.0-curl php-pear nginx letsencrypt
+RUN apt update; \
+    apt -y install php7.2-fpm php7.2-mysql php7.2-curl php-pear nginx letsencrypt
 
 ADD nginx-config/wp-supercache.conf /etc/nginx/snippets/wp-supercache.conf
 ADD nginx-config/default /etc/nginx/sites-available/default
