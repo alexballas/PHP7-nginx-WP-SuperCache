@@ -10,8 +10,10 @@ then
  exit
 fi
 
-openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+sed -i "/server_name/c\  server_name $domainName www.$domainName;" /etc/nginx/sites-available/default
+nginx -s reload
 
+openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 letsencrypt certonly --agree-tos --email $mailAddr -a webroot --webroot-path=/var/www/html -d $domainName -d www.$domainName
 
 echo "ssl_certificate /etc/letsencrypt/live/$domainName/fullchain.pem;" > /etc/nginx/snippets/ssl-$domainName.conf
@@ -41,8 +43,6 @@ add_header X-Content-Type-Options nosniff;
 ssl_dhparam /etc/ssl/certs/dhparam.pem;
 EOT
 
-sed -i "/server_name/c\  server_name $domainName www.$domainName;" /etc/nginx/sites-available/default
+sed -i "/listen \[.*80/a\  return 301 https://www.$domainName\$request_uri;" /etc/nginx/sites-available/default
 sed -i "/listen \[.*443/a\  include snippets/ssl-$domainName.conf;\n  include snippets/ssl-params.conf;" /etc/nginx/sites-available/default
-sed -i "/return 301/c\  return 301 https://www.$domainName\$request_uri;" /etc/nginx/sites-available/default
-
 nginx -s reload
